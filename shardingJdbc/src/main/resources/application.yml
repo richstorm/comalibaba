@@ -1,0 +1,51 @@
+application:
+  name: sharding-jdbc
+server:
+  port: 8080
+
+sharding:
+  jdbc:
+    config:
+      sharding:
+        props:
+          sql:
+            show: true
+        tables:
+          t_address:
+            actual-data-nodes: ds${0..1}.t_address
+            database-strategy:
+              inline:
+                algorithm-expression: ds${lit % 2}
+                shardingColumn: lit
+            key-generator-column-name: id
+          t_user:
+            actual-data-nodes: ds${0..1}.t_user${0..1}
+            database-strategy:
+              inline:
+                algorithm-expression: ds${city_id % 2}
+                sharding-column: city_id
+            key-generator-column-name: id
+            table-strategy:
+              inline:
+                algorithm-expression: t_user${sex % 2}
+                shardingColumn: sex
+    datasource:
+      ds0:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: 123456
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:mysql://192.168.109.100:3306/order1?characterEncoding=utf8&characterSetResults=utf8&autoReconnect=true&failOverReadOnly=false
+        username: root
+      ds1:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: 123456
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:mysql://192.168.109.100:3306/order2?characterEncoding=utf8&characterSetResults=utf8&autoReconnect=true&failOverReadOnly=false
+        username: root
+      names: ds0,ds1
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: 123456
+    url: jdbc:mysql://192.168.109.100:3306/sharding_jdbc?characterEncoding=utf8&characterSetResults=utf8&autoReconnect=true&failOverReadOnly=false
+    username: root
