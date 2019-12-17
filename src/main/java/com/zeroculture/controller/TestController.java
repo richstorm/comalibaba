@@ -23,4 +23,16 @@ public class TestController {
         return testService.getUserList();
     }
 
+    @GetMapping(value = "/getName")
+    @ResponseBody
+    public String getName(String name) throws Exception {
+        return name;
+    }
+
+    @GetMapping(value = "/devtools")
+    @ResponseBody
+    public String devtools(String devtools) throws Exception {
+        return devtools;
+    }
+
 }
