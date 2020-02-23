@@ -5,6 +5,7 @@ import com.zeroculture.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -23,16 +24,11 @@ public class TestController {
         return testService.getUserList();
     }
 
-    @GetMapping(value = "/getName")
-    @ResponseBody
-    public String getName(String name) throws Exception {
-        return name;
-    }
 
-    @GetMapping(value = "/devtools")
+    @GetMapping(value = "/getName/{id}")
     @ResponseBody
-    public String devtools(String devtools) throws Exception {
-        return devtools;
+    public String getName(String name, @PathVariable String id) throws Exception {
+        return name;
     }
 
 }
